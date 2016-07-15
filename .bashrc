@@ -115,4 +115,4 @@ if ! shopt -oq posix; then
   fi
 fi
 alias config='/usr/bin/git --git-dir=/home/sl/.mycfg/ --work-tree=/home/sl'
-[[ himBH = *i* ]] && source ~/liquidprompt/liquidprompt
+[[ himBH = *i* ]] && source ~/.liquidprompt/liquidprompt
