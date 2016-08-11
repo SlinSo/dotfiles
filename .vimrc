@@ -2,25 +2,25 @@ set autowrite
 
 " Load Plugins
 call plug#begin()
-Plug 'fatih/vim-go'              " go for vim
-Plug 'fatih/molokai'             " colorscheme
-Plug 'AndrewRadev/splitjoin.vim' " format strucs
-Plug 'SirVer/ultisnips'          " snippets
-Plug 'ctrlpvim/ctrlp.vim'        " easy navigation
-Plug 'rbgrouleff/bclose.vim'     " close buffer without vim
-Plug 'mileszs/ack.vim'           " fast searching
-Plug 'jlanzarotta/bufexplorer'   " some buffer enhancements
-Plug 'tpope/vim-fugitive'        " git for vim
-Plug 'tpope/vim-surround' " surround everything
-Plug 'gregsexton/gitv'           " see commits that lead to that code
-Plug 'godlygeek/tabular'         " align code
-Plug 'majutsushi/tagbar'         " code explorer
-Plug 'easymotion/vim-easymotion' " easy text navigation
-Plug 'scrooloose/nerdcommenter' " multi line commenting
-Plug 'scrooloose/nerdtree' " file explorer
-Plug 'myusuf3/numbers.vim' " nice line numbers
-Plug 'Shougo/neocomplete.vim' "autocomplete
-Plug '/jiangmiao/auto-pairs' " auto complete pairs
+Plug 'fatih/vim-go'                 " go for vim
+Plug 'fatih/molokai'                " colorscheme
+Plug 'AndrewRadev/splitjoin.vim'    " format strucs
+Plug 'SirVer/ultisnips'             " snippets
+Plug 'ctrlpvim/ctrlp.vim'           " easy navigation
+Plug 'rbgrouleff/bclose.vim'        " close buffer without vim
+Plug 'mileszs/ack.vim'              " fast searching
+Plug 'jlanzarotta/bufexplorer'      " some buffer enhancements
+Plug 'tpope/vim-fugitive'           " git for vim
+Plug 'tpope/vim-surround'           " surround everything
+Plug 'gregsexton/gitv'              " see commits that lead to that code
+Plug 'godlygeek/tabular'            " align code
+Plug 'majutsushi/tagbar'            " code explorer
+Plug 'easymotion/vim-easymotion'    " easy text navigation
+Plug 'scrooloose/nerdcommenter'     " multi line commenting
+Plug 'scrooloose/nerdtree'          " file explorer
+Plug 'Shougo/neocomplete.vim'       " autocomplete
+Plug 'jiangmiao/auto-pairs'         " auto complete pairs
+Plug 'terryma/vim-multiple-cursors' " sublime multi cursor
 call plug#end()
 
 " Settings for ack.vim to use ag instead
@@ -31,12 +31,62 @@ cnoreabbrev Ag Ack
 cnoreabbrev AG Ack
 
 "bufexplorer commands: be, bt, bs, bv
+" vim-multiple-cursos
+	let g:multi_cursor_next_key='<C-n>'
+	let g:multi_cursor_prev_key='<C-p>'
+	let g:multi_cursor_skip_key='<C-x>'
+	let g:multi_cursor_quit_key='<Esc>'
+	
+	" Called once right before you start selecting multiple cursors
+	function! Multiple_cursors_before()
+	  if exists(':NeoCompleteLock')==2
+	      exe 'NeoCompleteLock'
+	  endif
+	endfunction
+	" Called once only when the multiple selection is canceled (default <Esc>)
+	function! Multiple_cursors_after()
+	    if exists(':NeoCompleteUnlock')==2
+	       exe 'NeoCompleteUnlock'
+		endif
+	endfunction
+" }}
 
+
+" Nerdtree {{
+	map <C-t> :NERDTreeToggle<CR>
+" }}
 
 " tagbar {{
 	nmap <F8> :TagbarToggle<CR>
 "	let g:tagbar_autofocus = 1
-"       let g:tagbar_autoclose = 1
+"   let g:tagbar_autoclose = 1
+	let g:tagbar_type_go = {  
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+	\ }
 " }}
 
 " CTRL P {{
@@ -55,10 +105,6 @@ cnoreabbrev AG Ack
 	          \ },
 	      \ 'fallback': 'ag %s --nocolor -l -g ""'
 	\ }
-" }}
-
-" numbers {{
-	let g:numbers_exclude = ['nerdtree']
 " }}
 
 " NeoComplete
